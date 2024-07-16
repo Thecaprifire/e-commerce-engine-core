@@ -1,8 +1,10 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection');
+const { Model, DataTypes } = require("sequelize");
+
+const sequelize = require("../config/connection");
 
 class Product extends Model {}
 
+// set up fields and rules for Product model
 Product.init(
   {
     id: {
@@ -16,10 +18,12 @@ Product.init(
       allowNull: false,
     },
     price: {
-      type: DataTypes.DECIMAL(10, 2), // Adjusted to specify precision and scale
+      type: DataTypes.DECIMAL(),
       allowNull: false,
       validate: {
-        isDecimal: true, // Simplified validation for decimal
+        isDecimal: {
+          msg: "Price must be a decimal number.",
+        },
       },
     },
     stock: {
@@ -27,16 +31,17 @@ Product.init(
       allowNull: false,
       defaultValue: 10,
       validate: {
-        isNumeric: true, // Simplified validation for numeric
+        isNumeric: {
+          msg: "Stock must be a numeric value.",
+        },
       },
     },
     category_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'category',
-        key: 'id',
+        model: "category",
+        key: "id",
       },
-      allowNull: false,
     },
   },
   {
@@ -44,7 +49,7 @@ Product.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'products',
+    modelName: "products",
   }
 );
 
